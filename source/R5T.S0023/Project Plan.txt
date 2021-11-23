@@ -1,3 +1,10 @@
 R5T.S0023 - Survey local project files to build data repository.
 
 GOALS:
+
+* Public (user-dependent Dropbox directory path of file for local code file paths).
+* Human output. (Console and file.)
+* Logging as well as human output. (Log to console and file.)
+* Machine output (structured event log).
+* Store run-specific files in a run-specific directory.
+* Database-based and file-based project repositories.
