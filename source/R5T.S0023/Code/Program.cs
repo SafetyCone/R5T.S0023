@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -31,10 +32,14 @@ namespace R5T.S0023
 
         static async Task Main()
         {
+            //OverridableProcessStartTimeProvider.Override("20211126-121154");
+
             await Instances.Host.NewBuilder()
                 .UseProgramAsAService<Program, T0075.IHostBuilder>()
                 .UseHostStartup<HostStartup, T0075.IHostBuilder>(Instances.ServiceAction.AddStartupAction())
                 .Build()
+                .SerializeConfigurationAudit()
+                .SerializeServiceCollectionAudit()
                 .RunAsync();
         }
 
@@ -63,8 +68,20 @@ namespace R5T.S0023
 
         protected override async Task ServiceMain(CancellationToken stoppingToken)
         {
-            await this.TestMachineMessageDeserialization();
-            //await this.TestOutput();
+            //await this.RunMethod();
+            await this.RunOperation();
+        }
+
+        private async Task RunOperation()
+        {
+            await this.ServiceProvider.Run<O002_UpdateFileBasedProjectRepository>();
+            //await this.ServiceProvider.Run<O001_AnalyzeAllCurrentProjects>();
+        }
+
+        private async Task RunMethod()
+        {
+            //await this.TestMachineMessageDeserialization();
+            await this.TestOutput();
         }
 
         private async Task TestMachineMessageDeserialization()

@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
+using R5T.A0001;
 using R5T.D0088;
 
 
@@ -19,7 +20,11 @@ namespace R5T.S0023.Startup
                 
             await this.FillRequiredServiceActions(requiredServiceActions);
 
-            var providedServices = new ProvidedServiceActionAggregation();
+            var hostServiceActions = Instances.ServiceAction.AddHostServiceActions();
+
+            var providedServices = new ProvidedServiceActionAggregation()
+                .FilFrom(hostServiceActions)
+                ;
 
             await this.ConfigureServices(services,
                 providedServices);
