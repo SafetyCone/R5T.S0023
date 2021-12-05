@@ -1,6 +1,7 @@
 ﻿using System;
 
 using R5T.T0040;
+using R5T.T0044;
 using R5T.T0061;
 using R5T.T0062;
 using R5T.T0070;
@@ -14,6 +15,7 @@ namespace R5T.S0023
     public static class Instances
     {
         public static IConsole Console { get; } = T0088.Console.Instance;
+        public static IFileSystemOperator FileSystemOperator { get; } = T0044.FileSystemOperator.Instance;
         public static IHost Host { get; } = T0070.Host.Instance;
         public static IJsonKey JsonKey { get; } = T0090.JsonKey.Instance;
         public static IJsonOperator JsonOperator { get; } = T0090.JsonOperator.Instance;

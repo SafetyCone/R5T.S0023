@@ -38,10 +38,7 @@ namespace R5T.S0023
             // Just clear and add all.
             await projectRepository.ClearAllProjectNameSelections();
 
-            foreach (var projectNameSelection in expectedProjectNameSelections)
-            {
-                await projectRepository.AddProjectNameSelection(projectNameSelection);
-            }
+            await projectRepository.AddProjectNameSelections(expectedProjectNameSelections);
         }
     }
 }

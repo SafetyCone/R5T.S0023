@@ -5,29 +5,25 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
-using R5T.Lombardy;
 using R5T.Magyar;
 using R5T.Ostrogothia.Rivet;
-using R5T.Quadia.A001;
 
-using R5T.D0075.Default;
+using R5T.A0003;
+using R5T.D0048.Default;
 using R5T.D0081.I001;
 using R5T.D0084.A001;
-//using R5T.D0093.I001;
-using R5T.D0093.I002;
 using R5T.D0094.I001;
-using R5T.D0095.D001.I001;
 using R5T.D0095.I001;
-using R5T.D0096.A001;
-using R5T.D0096.D003.I001;
-using R5T.D0099.A001;
+using R5T.D0098.I002;
 using R5T.D0099.D002.I001;
-using R5T.D0099.D003.I001;
 using R5T.D0101.I001;
-//using R5T.L0017.T001;
-using R5T.L0017.D001;
+using R5T.D0105.I001;
 
 using R5T.S0023.Startup;
+
+using IProvidedServiceActionAggregation = R5T.S0023.Startup.IProvidedServiceActionAggregation;
+using IRequiredServiceActionAggregation = R5T.S0023.Startup.IRequiredServiceActionAggregation;
+using ServicesPlatformRequiredServiceActionAggregation = R5T.A0003.RequiredServiceActionAggregation;
 
 
 namespace R5T.S0023
@@ -44,119 +40,36 @@ namespace R5T.S0023
 
         protected override Task ConfigureServices(IServiceCollection services, IProvidedServiceActionAggregation providedServicesAggregation)
         {
-            var serviceCollectionAction = Instances.ServiceAction.AddServiceCollectionAction();
-
-            var commandLineOperatorAction = Instances.ServiceAction.AddCommandLineOperatorAction();
-            var stringlyTypedPathOperatorActions = Instances.ServiceAction.AddStringlyTypedPathOperatorActions();
-
-#pragma warning disable CS0618 // Type or member is obsolete
-            var loggerFactoryAction = Instances.ServiceAction.AddedElsewhere<ILoggerFactory>();
-            var loggerUnboundAction = Instances.ServiceAction.AddedElsewhere<ILoggerUnbound>();
-#pragma warning restore CS0618 // Type or member is obsolete
-
-            // Output file path.
-            var processNameProviderAction = Instances.ServiceAction.AddEntryPointAssemblyProcessNameProviderAction();
-
-            var directoryNameProviderAction = Instances.ServiceAction.AddDirectDirectoryNameProviderAction();
-
-            var processDirectoryNameProviderAction = Instances.ServiceAction.AddProcessDirectoryNameProviderAction(
-                processNameProviderAction,
-                directoryNameProviderAction);
-
+            // Inputs.
+            var executionSynchronicityProviderAction = Instances.ServiceAction.AddConstructorBasedExecutionSynchronicityProviderAction(Synchronicity.Synchronous);
+            var organizationProviderAction = Instances.ServiceAction.AddOrganizationProviderAction(); // Rivet organization.
             var rootOutputDirectoryPathProviderAction = Instances.ServiceAction.AddConstructorBasedRootOutputDirectoryPathProviderAction(@"C:\Temp\Output");
 
-            var processSpecificOutputDirectoryPathProviderAction = Instances.ServiceAction.AddProcessSpecificOutputDirectoryPathProviderAction(
-                processDirectoryNameProviderAction,
-                rootOutputDirectoryPathProviderAction,
-                stringlyTypedPathOperatorActions.StringlyTypedPathOperatorAction);
-
-            var currentProcessStartTimeProviderAction = Instances.ServiceAction.AddCurrentProcessStartTimeProviderAction();
-
-            var processStartTimeProviderAction = Instances.ServiceAction.AddOverridableProcessStartTimeProviderAction(
-                currentProcessStartTimeProviderAction);
-
-            var dateTimeDirectoryNameProviderAction = Instances.ServiceAction.AddYYYYMMDD_HHMMSS_DateTimeDirectoryNameProviderAction();
-
-            var processStartTimeDirectoryNameProviderAction = Instances.ServiceAction.AddProcessStartTimeDirectoryNameProviderAction(
-                processStartTimeProviderAction,
-                dateTimeDirectoryNameProviderAction);
-
-            var processStartTimeSpecificOutputDirectoryPathProviderAction = Instances.ServiceAction.AddProcessStartTimeSpecificOutputDirectoryPathProviderAction(
-                processSpecificOutputDirectoryPathProviderAction,
-                processStartTimeDirectoryNameProviderAction,
-                stringlyTypedPathOperatorActions.StringlyTypedPathOperatorAction);
-
-            var outputDirectoryPathProviderAction = Instances.ServiceAction.AddOutputDirectoryPathProviderAction(
-                processStartTimeSpecificOutputDirectoryPathProviderAction);
-
-            var outputFilePathProviderAction = Instances.ServiceAction.AddOutputFilePathProviderAction(
-                outputDirectoryPathProviderAction,
-                stringlyTypedPathOperatorActions.StringlyTypedPathOperatorAction);
-            
-            // Files.
-            var executionSynchronicityProviderAction = Instances.ServiceAction.AddConstructorBasedExecutionSynchronicityProviderAction(Synchronicity.Synchronous);
-
-            var serviceCollectionSerializationFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedServiceCollectionSerializationFileNameProviderAction("Services.txt");
-
-            var serviceCollectionSerializationFilePathProviderAction = Instances.ServiceAction.AddServiceCollectionSerializationFilePathProviderAction(
-                outputFilePathProviderAction,
-                serviceCollectionSerializationFileNameProviderAction);
-
-            var serviceCollectionAuditSerializerAction = Instances.ServiceAction.AddServiceCollectionAuditSerializerAction(
-                serviceCollectionAction,
-                serviceCollectionSerializationFilePathProviderAction);
-
-            var configurationSerializationFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedConfigurationSerializationFileNameProviderAction("Configuration.txt");
-
-            var configurationSerializationFilePathProviderAction = Instances.ServiceAction.AddConfigurationSerializationFilePathProviderAction(
-                configurationSerializationFileNameProviderAction,
-                outputFilePathProviderAction);
-
-            var configurationAuditSerializerAction = Instances.ServiceAction.AddConfigurationAuditSerializerAction(
-                providedServicesAggregation.ConfigurationAction,
-                configurationSerializationFilePathProviderAction);
-
-            //var loggerSynchronicityProviderAction = Instances.ServiceAction.AddConstructorBasedLoggerSynchronicityProviderAction(Synchronicity.Asynchronous);
-            var loggerSynchronicityProviderAction = Instances.ServiceAction.AddLoggerSynchronicityProviderAction(
-                executionSynchronicityProviderAction);
-            //var logFilePathProviderAction = Instances.ServiceAction.AddConstructorBasedLogFilePathProvider(@"C:\Temp\log.txt");
-            var logFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedLogFileNameProviderAction("log.txt");
-
-            var logFilePathProviderAction = Instances.ServiceAction.AddLogFilePathProviderAction(
-                logFileNameProviderAction,
-                outputFilePathProviderAction);
-
-            var humanOutputFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedHumanOutputFileNameProviderAction("Human Output.txt");
-
-            var humanOutputFilePathProviderAction = Instances.ServiceAction.AddHumanOutputFilePathProviderAction(
-                humanOutputFileNameProviderAction,
-                outputFilePathProviderAction);
-
-            //var humanOutputFilePathProviderAction = Instances.ServiceAction.AddConstructorBasedHumanOutputFilePathProviderAction(@"C:\Temp\Human Output.txt");
-
-            var humanOutputActions = Instances.ServiceAction.AddHumanOutputActions(
-                executionSynchronicityProviderAction,
-                humanOutputFilePathProviderAction);
+            // Services platform.
+            var inMemoryMachineMessageOutputSinkProviderAction = Instances.ServiceAction.AddInMemoryMachineMessageOutputSinkProviderAction();
 
             var simpleTextJsonSerializationHandlerAction = Instances.ServiceAction.AddSimpleTextJsonSerializationHandlerAction();
 
-            //var machineOutputFilePathProviderAction = Instances.ServiceAction.AddConstructorBasedMachineOutputFilePathProviderAction(@"C:\Temp\Machine Output.json");
-            var machineOutputFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedMachineOutputFileNameProviderAction("Machine Output.json");
+            var servicesPlatformRequiredServiceActionAggregation = new ServicesPlatformRequiredServiceActionAggregation
+            {
+                ConfigurationAction = providedServicesAggregation.ConfigurationAction,
+                ExecutionSynchronicityProviderAction = executionSynchronicityProviderAction,
+                LoggerAction = providedServicesAggregation.LoggerAction,
+                LoggerFactoryAction = providedServicesAggregation.LoggerFactoryAction,
+                MachineMessageOutputSinkProviderActions = EnumerableHelper.From(inMemoryMachineMessageOutputSinkProviderAction),
+                MachineMessageTypeJsonSerializationHandlerActions = EnumerableHelper.From(simpleTextJsonSerializationHandlerAction),
+                OrganizationProviderAction = organizationProviderAction,
+                RootOutputDirectoryPathProviderAction = rootOutputDirectoryPathProviderAction,
+            };
 
-            var machineOutputFilePathProviderAction = Instances.ServiceAction.AddMachineOutputFilePathProviderAction(
-                machineOutputFileNameProviderAction,
-                outputFilePathProviderAction);
+            var servicesPlatform = Instances.ServiceAction.AddProvidedServiceActionAggregation(
+                servicesPlatformRequiredServiceActionAggregation);
 
-            var inMemoryMachineMessageOutputSinkProviderAction = Instances.ServiceAction.AddInMemoryMachineMessageOutputSinkProviderAction();
-
-            var machineOutputActions = Instances.ServiceAction.AddMachineOutputActions(
-                executionSynchronicityProviderAction,
-                humanOutputActions.HumanOutputAction,
-                loggerFactoryAction,
-                loggerUnboundAction,
-                EnumerableHelper.From(inMemoryMachineMessageOutputSinkProviderAction),
-                EnumerableHelper.From(simpleTextJsonSerializationHandlerAction),
-                machineOutputFilePathProviderAction);
+            // Core competencies.
+            var backupProjectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddBackupProjectRepositoryFilePathsProviderAction(
+                servicesPlatform.OutputFilePathProviderAction);
+            var summaryFilePathProviderAction = Instances.ServiceAction.AddSummaryFilePathProviderAction(
+                servicesPlatform.OutputFilePathProviderAction);
 
             // Project repository.
             var projectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddHardCodedProjectRepositoryFilePathsProviderAction();
@@ -173,49 +86,57 @@ namespace R5T.S0023
             var allProjectFilePathsProviderServiceActions = Instances.ServiceAction.AddAllProjectFilePathsProviderServiceActions(
                 repositoriesDirectoryPathProviderAction);
 
-            //var machineOutputAction = Instances.ServiceAction.AddMachineOutputAction(EnumerableHelper.From(
-            //    fileMachineMessageOutputSinkProviderAction,
-            //    inMemoryMachineMessageOutputSinkProviderAction));
-
-            // Notepad++
-            var notepadPlusPlusExecutableFilePathProviderAction = Instances.ServiceAction.AddHardCodedNotepadPlusPlusExecutableFilePathProviderAction();
-
-            var notepadPlusPlusOperatorAction = Instances.ServiceAction.AddNotepadPlusPlusOperatorAction(
-                commandLineOperatorAction,
-                notepadPlusPlusExecutableFilePathProviderAction);
-
             // All project names listing file in organization shared data directory.
-            var organizationProviderAction = Instances.ServiceAction.AddOrganizationProviderAction();
-
-            var organizationDataDirectoryPathProviderActions = Instances.ServiceAction.AddOrganizationDataDirectoryPathProviderActions(
-                organizationProviderAction,
-                stringlyTypedPathOperatorActions.StringlyTypedPathOperatorAction);
-
-            var organizationSharedDataDirectoryPathProviderAction = Instances.ServiceAction.AddOrganizationSharedDataDirectoryPathProviderAction(
-                organizationDataDirectoryPathProviderActions.OrganizationDataDirectoryPathProviderAction);
-
-            var organizationSharedDataDirectoryFilePathProviderAction = Instances.ServiceAction.AddOrganizationSharedDataDirectoryFilePathProviderAction(
-                organizationSharedDataDirectoryPathProviderAction,
-                stringlyTypedPathOperatorActions.StringlyTypedPathOperatorAction);
-
             var allProjectNamesListingFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedAllProjectNamesListingFileNameProviderAction("Project Names-All.txt");
 
             var allProjectNamesListingFilePathProviderAction = Instances.ServiceAction.AddAllProjectNamesListingFilePathProviderAction(
                 allProjectNamesListingFileNameProviderAction,
-                organizationSharedDataDirectoryFilePathProviderAction);
+                //organizationSharedDataDirectoryFilePathProviderAction);
+                servicesPlatform.OrganizationSharedDataDirectoryFilePathProviderAction);
+
+            // Misc.
+            // Notepad++
+            var notepadPlusPlusExecutableFilePathProviderAction = Instances.ServiceAction.AddHardCodedNotepadPlusPlusExecutableFilePathProviderAction();
+
+            var notepadPlusPlusOperatorAction = Instances.ServiceAction.AddNotepadPlusPlusOperatorAction(
+                //commandLineOperatorAction,
+                servicesPlatform.CommandLineOperatorAction,
+                notepadPlusPlusExecutableFilePathProviderAction);
 
             // Operations
             var o001_AnalyzeAllCurrentProjects = Instances.ServiceAction.AddO001_AnalyzeAllCurrentProjectsAction(
                 allProjectFilePathsProviderServiceActions.AllProjectFilePathsProviderAction,
-                fileBasedProjectRepositoryAction,
                 notepadPlusPlusOperatorAction,
-                outputFilePathProviderAction,
+                summaryFilePathProviderAction,
                 projectRepositoryAction);
             var o002_UpdateFileBasedProjectRepositoryAction = Instances.ServiceAction.AddO002_UpdateFileBasedProjectRepositoryAction(
                 allProjectFilePathsProviderServiceActions.AllProjectFilePathsProviderAction,
                 allProjectNamesListingFilePathProviderAction,
-                fileBasedProjectRepositoryAction,
                 projectRepositoryAction);
+            var o003a_DetermineIfHumanActionsAreRequiredAction = Instances.ServiceAction.AddO003a_DetermineIfHumanActionsAreRequiredAction();
+            var o003b_PromptForRequiredHumanActionsCoreAction = Instances.ServiceAction.AddO003b_PromptForRequiredHumanActionsCoreAction(
+                notepadPlusPlusOperatorAction,
+                projectRepositoryFilePathsProviderAction,
+                summaryFilePathProviderAction);
+            var o003_PerformRequiredHumanActionsAction = Instances.ServiceAction.AddO003_PerformRequiredHumanActionsAction(
+                allProjectFilePathsProviderServiceActions.AllProjectFilePathsProviderAction,
+                projectRepositoryAction,
+                o003a_DetermineIfHumanActionsAreRequiredAction,
+                o003b_PromptForRequiredHumanActionsCoreAction);
+            var o004_BackupFileBasedProjectRepositoryFilesAction = Instances.ServiceAction.AddO004_BackupFileBasedProjectRepositoryFilesAction(
+                backupProjectRepositoryFilePathsProviderAction,
+                servicesPlatform.HumanOutputAction,
+                projectRepositoryFilePathsProviderAction);
+
+            var o100_UpdateProjectRepositoryWithCurrentProjectsAction = Instances.ServiceAction.AddO100_UpdateProjectRepositoryWithCurrentProjectsAction(
+                o001_AnalyzeAllCurrentProjects,
+                o002_UpdateFileBasedProjectRepositoryAction,
+                o003_PerformRequiredHumanActionsAction,
+                o004_BackupFileBasedProjectRepositoryFilesAction);
+
+            var o900_OpenAllProjectRepositoryFilesAction = Instances.ServiceAction.AddO900_OpenAllProjectRepositoryFilesAction(
+                notepadPlusPlusOperatorAction,
+                projectRepositoryFilePathsProviderAction);
 
             services
                 .AddLogging(loggingBuilder =>
@@ -232,21 +153,32 @@ namespace R5T.S0023
                         //.AddSimpleConsole()
                         //.AddConsoleSynchronous()
                         .AddConsole(
-                            loggerSynchronicityProviderAction)
+                            //loggerSynchronicityProviderAction)
+                            servicesPlatform.LoggerSynchronicityProviderAction)
                         .AddFile(
-                            logFilePathProviderAction,
-                            loggerSynchronicityProviderAction)
+                            //logFilePathProviderAction,
+                            //loggerSynchronicityProviderAction)
+                            servicesPlatform.LogFilePathProviderAction,
+                            servicesPlatform.LoggerSynchronicityProviderAction)
                         //.AddSimpleConsole
                         ;
                 })
                 .AddSingleton<Yabbo.TestService>()
-                .Run(configurationAuditSerializerAction)
-                .Run(humanOutputActions.HumanOutputAction)
-                .Run(machineOutputActions.MachineOutputAction)
-                .Run(serviceCollectionAuditSerializerAction)
+                //.Run(configurationAuditSerializerAction)
+                .Run(servicesPlatform.ConfigurationAuditSerializerAction)
+                //.Run(humanOutputActions.HumanOutputAction)
+                .Run(servicesPlatform.HumanOutputAction)
+                //.Run(machineOutputActions.MachineOutputAction)
+                .Run(servicesPlatform.MachineOutputAction)
+                //.Run(serviceCollectionAuditSerializerAction)
+                .Run(servicesPlatform.ServiceCollectionAuditSerializerAction)
                 // Operations.
                 .Run(o001_AnalyzeAllCurrentProjects)
                 .Run(o002_UpdateFileBasedProjectRepositoryAction)
+                .Run(o003_PerformRequiredHumanActionsAction)
+                .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o100_UpdateProjectRepositoryWithCurrentProjectsAction)
+                .Run(o900_OpenAllProjectRepositoryFilesAction)
                 ;
 
             return Task.CompletedTask;

@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using R5T.Magyar;
 using R5T.Magyar.IO;
 
+using R5T.D0048;
 using R5T.D0084.D001;
 using R5T.D0101;
 using R5T.D0101.I001;
+using R5T.D0105;
 
 
 namespace R5T.S0023
@@ -22,34 +24,25 @@ namespace R5T.S0023
     public class O001_AnalyzeAllCurrentProjects : T0020.IOperation
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
-        private IFileBasedProjectRepository FileBasedProjectRepository { get; }
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
-        private IOutputFilePathProvider OutputFilePathProvider { get; }
+        private ISummaryFilePathProvider SummaryFilePathProvider { get; }
         private IProjectRepository ProjectRepository { get; }
 
 
         public O001_AnalyzeAllCurrentProjects(
             IAllProjectFilePathsProvider allProjectFilePathsProvider,
-            IFileBasedProjectRepository fileBasedProjectRepository,
             INotepadPlusPlusOperator notepadPlusPlusOperator,
-            IOutputFilePathProvider outputFilePathProvider,
+            ISummaryFilePathProvider summaryFilePathProvider,
             IProjectRepository projectRepository)
         {
             this.AllProjectFilePathsProvider = allProjectFilePathsProvider;
-            this.FileBasedProjectRepository = fileBasedProjectRepository;
             this.NotepadPlusPlusOperator = notepadPlusPlusOperator;
-            this.OutputFilePathProvider = outputFilePathProvider;
+            this.SummaryFilePathProvider = summaryFilePathProvider;
             this.ProjectRepository = projectRepository;
         }
 
         public async Task Run()
         {
-            // Inputs.
-            var summaryFileName = "Summary-S0023.O001_AnalyzeAllCurrentProjects.txt";
-
-            // Using a file repository, with read-only context.
-            await using var modificationContext = await this.FileBasedProjectRepository.GetQueryContext();
-
             // Get all repository projects.
             var repositoryProjects = await this.ProjectRepository.GetAllProjects();
 
@@ -58,13 +51,16 @@ namespace R5T.S0023
                 repositoryProjects);
 
             // Determine any new duplicate project names.
-            var currentDuplicateProjectNames = currentProjects.GetDuplicateNamesInAlphabeticalOrder();
-            var repositoryDuplicateProjectNames = repositoryProjects.GetDuplicateNamesInAlphabeticalOrder();
+            var repositoryDuplicateProjectNames = await this.ProjectRepository.GetDuplicateProjectNames();
+            var repositoryIgnoredProjectNames = await this.ProjectRepository.GetAllIgnoredProjectNames();
 
-            var newDuplicateProjectNames = currentDuplicateProjectNames.Except(repositoryDuplicateProjectNames);
+            var newDuplicateProjectNames = Instances.Operation.GetNewDuplicateProjectNames(
+                currentProjects,
+                repositoryDuplicateProjectNames,
+                repositoryIgnoredProjectNames);
 
             // Provide a summary of changes.
-            var summaryFilePath = await this.OutputFilePathProvider.GetOutputFilePath(summaryFileName);
+            var summaryFilePath = await this.SummaryFilePathProvider.GetSummaryFilePath();
 
             using (var textFile = FileHelper.WriteTextFile(summaryFilePath))
             {

@@ -20,6 +20,7 @@ using R5T.D0098;
 using R5T.D0099;
 using R5T.D0099.D002.I001;
 using R5T.D0099.D003;
+using R5T.D0103.I001;
 using R5T.L0017.X001;
 using R5T.T0091.T001;
 
@@ -32,7 +33,7 @@ namespace R5T.S0023
 
         static async Task Main()
         {
-            //OverridableProcessStartTimeProvider.Override("20211126-121154");
+            //OverridableProcessStartTimeProvider.Override("20211203-231500");
 
             await Instances.Host.NewBuilder()
                 .UseProgramAsAService<Program, T0075.IHostBuilder>()
@@ -74,7 +75,13 @@ namespace R5T.S0023
 
         private async Task RunOperation()
         {
-            await this.ServiceProvider.Run<O002_UpdateFileBasedProjectRepository>();
+            //await this.ServiceProvider.Run<O900_OpenAllProjectRepositoryFiles>();
+
+            await this.ServiceProvider.Run<O100_UpdateProjectRepositoryWithCurrentProjects>();
+
+            //await this.ServiceProvider.Run<O004_BackupFileBasedProjectRepositoryFiles>();
+            //await this.ServiceProvider.Run<O003_PerformRequiredHumanActions>();
+            //await this.ServiceProvider.Run<O002_UpdateFileBasedProjectRepository>();
             //await this.ServiceProvider.Run<O001_AnalyzeAllCurrentProjects>();
         }
 

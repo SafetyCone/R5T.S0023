@@ -21,29 +21,21 @@ namespace R5T.S0023
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
         private IAllProjectNamesListingFilePathProvider AllProjectNamesListingFilePathProvider { get; }
-        private IFileBasedProjectRepository FileBasedProjectRepository { get; }
         private IProjectRepository ProjectRepository { get; }
 
 
         public O002_UpdateFileBasedProjectRepository(
             IAllProjectFilePathsProvider allProjectFilePathsProvider,
             IAllProjectNamesListingFilePathProvider allProjectNamesListingFilePathProvider,
-            IFileBasedProjectRepository fileBasedProjectRepository,
             IProjectRepository projectRepository)
         {
             this.AllProjectFilePathsProvider = allProjectFilePathsProvider;
             this.AllProjectNamesListingFilePathProvider = allProjectNamesListingFilePathProvider;
-            this.FileBasedProjectRepository = fileBasedProjectRepository;
             this.ProjectRepository = projectRepository;
         }
 
         public async Task Run()
         {
-            // Inputs.
-
-            // Using a file repository, with read-only context.
-            await using var modificationContext = await this.FileBasedProjectRepository.GetQueryContext();
-
             // Get all repository projects.
             var repositoryProjects = await this.ProjectRepository.GetAllProjects();
 
@@ -52,21 +44,16 @@ namespace R5T.S0023
                 repositoryProjects);
 
             // Modify the project repository to match the current set of projects.
-            foreach (var project in departedProjects)
-            {
-                await this.ProjectRepository.DeleteProject(project);
-            }
+            await this.ProjectRepository.DeleteProjects(departedProjects);
 
-            foreach (var project in newProjects)
-            {
-                await this.ProjectRepository.AddProject(project);
-            }
+            await this.ProjectRepository.AddProjects(newProjects);
 
             // With all current projects now in the repository:
             // Update the name selections using the project list, ignored names list, and duplicate name selections.
             await this.ProjectRepository.UpdateProjectNameSelections();
 
             // Then update the list of all project names (including any duplicates).
+            // Get all projects again, now with new projects added and departed projects removed.
             var allProjects = await this.ProjectRepository.GetAllProjects();
 
             var allProjectNamesInOrder = allProjects
