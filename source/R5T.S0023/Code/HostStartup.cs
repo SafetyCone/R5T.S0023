@@ -12,17 +12,19 @@ using R5T.A0003;
 using R5T.D0048.Default;
 using R5T.D0081.I001;
 using R5T.D0084.A001;
+using R5T.D0088.I0002;
 using R5T.D0094.I001;
 using R5T.D0095.I001;
 using R5T.D0098.I002;
 using R5T.D0099.D002.I001;
 using R5T.D0101.I001;
+using R5T.D0101.I0001;
 using R5T.D0105.I001;
+using R5T.D0110.I001;
+using R5T.D0110.I002;
 
-using R5T.S0023.Startup;
-
-using IProvidedServiceActionAggregation = R5T.S0023.Startup.IProvidedServiceActionAggregation;
-using IRequiredServiceActionAggregation = R5T.S0023.Startup.IRequiredServiceActionAggregation;
+using IProvidedServiceActionAggregation = R5T.D0088.I0002.IProvidedServiceActionAggregation;
+using IRequiredServiceActionAggregation = R5T.D0088.I0002.IRequiredServiceActionAggregation;
 using ServicesPlatformRequiredServiceActionAggregation = R5T.A0003.RequiredServiceActionAggregation;
 
 
@@ -68,8 +70,12 @@ namespace R5T.S0023
             // Core competencies.
             var backupProjectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddBackupProjectRepositoryFilePathsProviderAction(
                 servicesPlatform.OutputFilePathProviderAction);
+
+            var summaryFileNameProviderAction = Instances.ServiceAction.AddConstructorBasedSummaryFileNameProviderAction("Summary-Current Projects Analysis.txt");
+
             var summaryFilePathProviderAction = Instances.ServiceAction.AddSummaryFilePathProviderAction(
-                servicesPlatform.OutputFilePathProviderAction);
+                servicesPlatform.OutputFilePathProviderAction,
+                summaryFileNameProviderAction);
 
             // Project repository.
             var projectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddHardCodedProjectRepositoryFilePathsProviderAction();

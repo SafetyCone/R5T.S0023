@@ -28,18 +28,6 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="SummaryFilePathProvider"/> implementation of <see cref="ISummaryFilePathProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceAction<ISummaryFilePathProvider> AddSummaryFilePathProviderAction(this IServiceAction _,
-            IServiceAction<IOutputFilePathProvider> outputFilePathProviderAction)
-        {
-            var serviceAction = _.New<ISummaryFilePathProvider>(services => services.AddSummaryFilePathProvider(
-                outputFilePathProviderAction));
-
-            return serviceAction;
-        }
-
-        /// <summary>
         /// Adds the <see cref="ConstructorBasedAllProjectNamesListingFileNameProvider"/> implementation of <see cref="IAllProjectNamesListingFileNameProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<IAllProjectNamesListingFileNameProvider> AddConstructorBasedAllProjectNamesListingFileNameProviderAction(this IServiceAction _,
@@ -71,15 +59,6 @@ namespace R5T.S0023
         public static IServiceAction<IRepositoriesDirectoryPathProvider> AddHardCodedRepositoriesDirectoryPathProviderAction(this IServiceAction _)
         {
             var serviceAction = _.New<IRepositoriesDirectoryPathProvider>(services => services.AddHardCodedRepositoriesDirectoryPathProvider());
-            return serviceAction;
-        }
-
-        /// <summary>
-        /// Adds the <see cref="HardCodedProjectRepositoryFilePathsProvider"/> implementation of <see cref="IProjectRepositoryFilePathsProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceAction<IProjectRepositoryFilePathsProvider> AddHardCodedProjectRepositoryFilePathsProviderAction(this IServiceAction _)
-        {
-            var serviceAction = _.New<IProjectRepositoryFilePathsProvider>(services => services.AddHardCodedProjectRepositoryFilePathsProvider());
             return serviceAction;
         }
 

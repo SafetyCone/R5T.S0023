@@ -33,8 +33,8 @@ namespace System
             Project[] newProjects,
             Project[] departedProjects)
         GetNewAndDepartedProjects(this IOperation _,
-            Project[] currentProjects,
-            Project[] repositoryProjects)
+            Project[] repositoryProjects,
+            Project[] currentProjects)
         {
             // No need to check data values, because we are using a data value-based equality comparer, and the only other field is identity, which will not have been set for the local extension method base objects.
             var newProjects = currentProjects.Except<Project>(repositoryProjects, NamedFilePathedEqualityComparer.Instance)
@@ -63,7 +63,7 @@ namespace System
             repositoryProjects.VerifyDistinctByNamedFilePathedData();
 
             // Determine which projcts to add, and which to remove from the repository.
-            var (newProjects, departedProjects) = _.GetNewAndDepartedProjects(currentProjects, repositoryProjects);
+            var (newProjects, departedProjects) = _.GetNewAndDepartedProjects(repositoryProjects, currentProjects);
 
             return (currentProjects, newProjects, departedProjects);
         }

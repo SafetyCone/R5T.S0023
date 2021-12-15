@@ -6,10 +6,9 @@ using R5T.Quadia.D002;
 
 using R5T.D0048;
 using R5T.D0084.D002;
+using R5T.D0088.I0002;
 using R5T.D0101.I001;
 using R5T.T0063;
-
-using R5T.S0023.Startup;
 
 
 namespace R5T.S0023
@@ -25,19 +24,6 @@ namespace R5T.S0023
             services
                 .Run(outputFilePathProviderAction)
                 .AddSingleton<IBackupProjectRepositoryFilePathsProvider, BackupProjectRepositoryFilePathsProvider>();
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds the <see cref="SummaryFilePathProvider"/> implementation of <see cref="ISummaryFilePathProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceCollection AddSummaryFilePathProvider(this IServiceCollection services,
-            IServiceAction<IOutputFilePathProvider> outputFilePathProviderAction)
-        {
-            services
-                .Run(outputFilePathProviderAction)
-                .AddSingleton<ISummaryFilePathProvider, SummaryFilePathProvider>();
 
             return services;
         }
@@ -75,16 +61,6 @@ namespace R5T.S0023
         public static IServiceCollection AddHardCodedRepositoriesDirectoryPathProvider(this IServiceCollection services)
         {
             services.AddSingleton<IRepositoriesDirectoryPathProvider, HardCodedRepositoriesDirectoryPathProvider>();
-
-            return services;
-        }
-
-        /// <summary>
-        /// Adds the <see cref="HardCodedProjectRepositoryFilePathsProvider"/> implementation of <see cref="IProjectRepositoryFilePathsProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceCollection AddHardCodedProjectRepositoryFilePathsProvider(this IServiceCollection services)
-        {
-            services.AddSingleton<IProjectRepositoryFilePathsProvider, HardCodedProjectRepositoryFilePathsProvider>();
 
             return services;
         }

@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 
 using R5T.D0084.D001;
 using R5T.D0101;
-using R5T.D0101.I001;
 
 
 namespace R5T.S0023
@@ -50,6 +49,35 @@ namespace R5T.S0023
                 Console.WriteLine("Human actions are required before updating the project repository.\n");
 
                 await this.O003B_PromptForRequiredHumanActionsCore.Run(humanActionsAreRequired);
+
+                // See if any mandatory actions are still required after human changes.
+                var repositoryDuplicateProjectNames2 = await this.ProjectRepository.GetDuplicateProjectNames();
+                var repositoryIgnoredProjectNames2 = await this.ProjectRepository.GetAllIgnoredProjectNames();
+
+                var humanActionsAreRequired2 = await this.O003A_DetermineIfHumanActionsAreRequired.Run(
+                    currentProjects,
+                    repositoryProjects,
+                    repositoryDuplicateProjectNames2,
+                    repositoryIgnoredProjectNames2);
+
+                var anyMandatoryHumanActionsStillRequired = humanActionsAreRequired2.AnyMandatory();
+                while(anyMandatoryHumanActionsStillRequired)
+                {
+                    Console.WriteLine("MANDATORY human actions are required before updating the project repository.\n");
+
+                    await this.O003B_PromptForRequiredHumanActionsCore.Run(humanActionsAreRequired);
+
+                    repositoryDuplicateProjectNames2 = await this.ProjectRepository.GetDuplicateProjectNames();
+                    repositoryIgnoredProjectNames2 = await this.ProjectRepository.GetAllIgnoredProjectNames();
+
+                    humanActionsAreRequired2 = await this.O003A_DetermineIfHumanActionsAreRequired.Run(
+                        currentProjects,
+                        repositoryProjects,
+                        repositoryDuplicateProjectNames2,
+                        repositoryIgnoredProjectNames2);
+
+                    anyMandatoryHumanActionsStillRequired = humanActionsAreRequired2.AnyMandatory();
+                }
             }
             else
             {

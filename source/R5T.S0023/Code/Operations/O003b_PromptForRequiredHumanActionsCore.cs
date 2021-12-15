@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 
 using R5T.D0101.I001;
 using R5T.D0105;
+using R5T.D0110;
 
 
 namespace R5T.S0023
@@ -60,7 +61,7 @@ namespace R5T.S0023
             // * Review list of departed projects.
             if (humanActionsRequired.ReviewDepartedProjects)
             {
-                Console.WriteLine("*) Review the list of departed projects.\nNote: departed project names will be removed from the lists of ignored project names and selected project names.");
+                Console.WriteLine("*) Review the list of departed projects.\nNote: departed project names will be removed from the lists of ignored and selected project names.");
                 Console.WriteLine("Press enter to continue...");
                 Console.ReadLine();
             }

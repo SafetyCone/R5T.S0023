@@ -27,8 +27,8 @@ namespace R5T.S0023
         public async Task Run()
         {
             await this.O001_AnalyzeAllCurrentProjects.Run();
+            await this.O004_BackupFileBasedProjectRepositoryFiles.Run(); // Run backup before human might make changes.
             await this.O003_PerformRequiredHumanActions.Run();
-            await this.O004_BackupFileBasedProjectRepositoryFiles.Run();
             await this.O002_UpdateFileBasedProjectRepository.Run();
         }
     }

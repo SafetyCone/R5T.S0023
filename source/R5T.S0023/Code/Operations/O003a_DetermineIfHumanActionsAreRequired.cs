@@ -21,8 +21,8 @@ namespace R5T.S0023
             string[] repositoryIgnoredNames)
         {
             var (newProjects, departedProjects) = Instances.Operation.GetNewAndDepartedProjects(
-                currentProjects,
-                repositoryProjects);
+                repositoryProjects,
+                currentProjects);
 
             // Are there any new projects?
             var anyNewProjects = newProjects.Any();
