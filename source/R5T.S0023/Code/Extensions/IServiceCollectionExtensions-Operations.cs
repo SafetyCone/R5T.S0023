@@ -2,7 +2,10 @@
 
 using Microsoft.Extensions.DependencyInjection;
 
+using R5T.D0078;
+using R5T.D0079;
 using R5T.D0084.D001;
+using R5T.D0084.D002;
 using R5T.D0096;
 using R5T.D0101;
 using R5T.D0101.I001;
@@ -37,14 +40,37 @@ namespace R5T.S0023
             IServiceAction<O001_AnalyzeAllCurrentProjects> o001_AnalyzeAllCurrentProjectsAction,
             IServiceAction<O002_UpdateFileBasedProjectRepository> o002_UpdateFileBasedProjectRepositoryAction,
             IServiceAction<O003_PerformRequiredHumanActions> o003_PerformRequiredHumanActionsAction,
-            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction)
+            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
+            IServiceAction<O005_UpdateProjectIntellisense> o005_UpdateProjectIntellisenseAction)
         {
             services
                 .Run(o001_AnalyzeAllCurrentProjectsAction)
                 .Run(o002_UpdateFileBasedProjectRepositoryAction)
                 .Run(o003_PerformRequiredHumanActionsAction)
                 .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o005_UpdateProjectIntellisenseAction)
                 .AddSingleton<O100_UpdateProjectRepositoryWithCurrentProjects>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O005_UpdateProjectIntellisense"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO005_UpdateProjectIntellisense(this IServiceCollection services,
+            IServiceAction<IProjectPathExtensionMethodBaseProjectPathProvider> projectPathExtensionMethodBaseProjectPathProviderAction,
+            IServiceAction<IProjectRepository> projectRepositoryAction,
+            IServiceAction<IRepositoriesDirectoryPathProvider> repositoriesDirectoryPathProviderAction,
+            IServiceAction<IVisualStudioProjectFileOperator> visualStudioProjectFileOperatorAction,
+            IServiceAction<IVisualStudioSolutionFileOperator> visualStudioSolutionFileOperatorAction)
+        {
+            services
+                .Run(projectPathExtensionMethodBaseProjectPathProviderAction)
+                .Run(projectRepositoryAction)
+                .Run(repositoriesDirectoryPathProviderAction)
+                .Run(visualStudioProjectFileOperatorAction)
+                .Run(visualStudioSolutionFileOperatorAction)
+                .AddSingleton<O005_UpdateProjectIntellisense>();
 
             return services;
         }

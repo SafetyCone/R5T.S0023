@@ -10,13 +10,26 @@ namespace R5T.S0023
 {
     public static class IProjectRepositoryExtensions
     {
+        public static Project[] GetExpectedUniqueProjects(this IProjectRepository projectRepository,
+            Project[] projects,
+            ProjectNameSelection[] duplicateProjectNameSelections,
+            string[] ignoredProjectNames)
+        {
+            var uniqueProjects = projects.GetUniqueItems(
+                duplicateProjectNameSelections,
+                ignoredProjectNames);
+
+            return uniqueProjects;
+        }
+
         public static async Task<Project[]> GetExpectedUniqueProjects(this IProjectRepository projectRepository)
         {
             var projects = await projectRepository.GetAllProjects();
             var duplicateProjectNameSelections = await projectRepository.GetAllDuplicateProjectNameSelections();
             var ignoredProjectNames = await projectRepository.GetAllIgnoredProjectNames();
 
-            var uniqueProjects = projects.GetUniqueItems(
+            var uniqueProjects = projectRepository.GetExpectedUniqueProjects(
+                projects,
                 duplicateProjectNameSelections,
                 ignoredProjectNames);
 

@@ -7,7 +7,7 @@ using R5T.D0101;
 
 namespace R5T.S0023
 {
-    public class O003_PerformRequiredHumanActions : T0020.IOperation
+    public class O003_PerformRequiredHumanActions : T0020.IActionOperation
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
         private IProjectRepository ProjectRepository { get; }
@@ -36,10 +36,12 @@ namespace R5T.S0023
 
             var repositoryDuplicateProjectNames = await this.ProjectRepository.GetDuplicateProjectNames();
             var repositoryIgnoredProjectNames = await this.ProjectRepository.GetAllIgnoredProjectNames();
+            var selectedProjectNames = await this.ProjectRepository.GetAllProjectNameSelections();
 
             var humanActionsAreRequired = await this.O003A_DetermineIfHumanActionsAreRequired.Run(
                 currentProjects,
                 repositoryProjects,
+                selectedProjectNames,
                 repositoryDuplicateProjectNames,
                 repositoryIgnoredProjectNames);
 
@@ -49,7 +51,7 @@ namespace R5T.S0023
                 Console.WriteLine("Human actions are required before updating the project repository.\n");
 
                 await this.O003B_PromptForRequiredHumanActionsCore.Run(humanActionsAreRequired);
-
+                 
                 // See if any mandatory actions are still required after human changes.
                 var repositoryDuplicateProjectNames2 = await this.ProjectRepository.GetDuplicateProjectNames();
                 var repositoryIgnoredProjectNames2 = await this.ProjectRepository.GetAllIgnoredProjectNames();
@@ -57,6 +59,7 @@ namespace R5T.S0023
                 var humanActionsAreRequired2 = await this.O003A_DetermineIfHumanActionsAreRequired.Run(
                     currentProjects,
                     repositoryProjects,
+                    selectedProjectNames,
                     repositoryDuplicateProjectNames2,
                     repositoryIgnoredProjectNames2);
 
@@ -73,6 +76,7 @@ namespace R5T.S0023
                     humanActionsAreRequired2 = await this.O003A_DetermineIfHumanActionsAreRequired.Run(
                         currentProjects,
                         repositoryProjects,
+                        selectedProjectNames,
                         repositoryDuplicateProjectNames2,
                         repositoryIgnoredProjectNames2);
 

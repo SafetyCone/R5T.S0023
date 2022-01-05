@@ -11,7 +11,7 @@ namespace R5T.S0023
     /// <summary>
     /// After determining whether human actions are required, prompt the human through all required actions.
     /// </summary>
-    public class O003b_PromptForRequiredHumanActionsCore
+    public class O003b_PromptForRequiredHumanActionsCore : T0020.IOperation
     {
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
         private IProjectRepositoryFilePathsProvider ProjectRepositoryFilePathsProvider { get; }
@@ -81,7 +81,19 @@ namespace R5T.S0023
             }
             else
             {
-                Console.WriteLine("*) No new duplicate project names to choose among.");
+                Console.WriteLine("*) No new duplicate project names to choose among.\n");
+            }
+
+            // * Review list of newly ignored projects.
+            if (humanActionsRequired.ReviewNewIgnoredProjectNames)
+            {
+                Console.WriteLine($"*) Review the list of new ignored project names.");
+                Console.WriteLine("Press enter when finished...");
+                Console.ReadLine();
+            }
+            else
+            {
+                Console.WriteLine("*) No new ignored project names to choose among.\n");
             }
         }
     }

@@ -8,7 +8,7 @@ using R5T.D0105;
 
 namespace R5T.S0023
 {
-    public class O900_OpenAllProjectRepositoryFiles : T0020.IOperation
+    public class O900_OpenAllProjectRepositoryFiles : T0020.IActionOperation
     {
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
         private IProjectRepositoryFilePathsProvider ProjectRepositoryFilePathsProvider { get; }

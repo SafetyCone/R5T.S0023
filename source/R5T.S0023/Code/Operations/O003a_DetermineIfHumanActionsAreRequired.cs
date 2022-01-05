@@ -10,13 +10,14 @@ namespace R5T.S0023
     /// <summary>
     /// Determines if any human actions are required to update the project repository.
     /// </summary>
-    public class O003a_DetermineIfHumanActionsAreRequired
+    public class O003a_DetermineIfHumanActionsAreRequired : T0020.IOperation
     {
 #pragma warning disable CA1822 // Mark members as static
         public Task<HumanActionsRequired> Run(
 #pragma warning restore CA1822 // Mark members as static
             Project[] currentProjects,
             Project[] repositoryProjects,
+            ProjectNameSelection[] selectedProjectNames,
             string[] repositoryDuplicateProjectNames,
             string[] repositoryIgnoredNames)
         {
@@ -38,10 +39,17 @@ namespace R5T.S0023
 
             var anyNewDuplicateProjectNames = newDuplicateProjectNames.Any();
 
+            var newIgnoredProjectNames = Instances.Operation.GetNewIgnoredProjectNames(
+                selectedProjectNames,
+                repositoryIgnoredNames);
+
+            var anyNewIgnoredProjectNames = newIgnoredProjectNames.Any();
+
             var output = new HumanActionsRequired
             {
                 ReviewNewProjects = anyNewProjects,
                 ReviewDepartedProjects = anyDepartedProjects,
+                ReviewNewIgnoredProjectNames = anyNewIgnoredProjectNames,
                 ReviewNewDuplicateProjectNames = anyNewDuplicateProjectNames,
             };
 

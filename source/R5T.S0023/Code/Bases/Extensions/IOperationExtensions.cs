@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,6 +45,21 @@ namespace System
                 .ToArray();
 
             return (newProjects, departedProjects);
+        }
+
+        public static string[] GetNewIgnoredProjectNames(this IOperation _,
+            ProjectNameSelection[] priorSelectedProjectNames,
+            string[] currentIgnoredProjectNames)
+        {
+            var repositoryIgnoredProjectNamesHash = new HashSet<string>(currentIgnoredProjectNames);
+
+            var output = priorSelectedProjectNames
+                .Where(xProjectName => repositoryIgnoredProjectNamesHash.Contains(xProjectName.ProjectName))
+                .Select(xProjectName => xProjectName.ProjectName)
+                .OrderAlphabetically() // To aide debugging.
+                .ToArray();
+
+            return output;
         }
 
         public static async Task<(

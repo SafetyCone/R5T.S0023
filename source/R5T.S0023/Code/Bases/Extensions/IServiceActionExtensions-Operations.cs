@@ -1,6 +1,9 @@
 ﻿using System;
 
+using R5T.D0078;
+using R5T.D0079;
 using R5T.D0084.D001;
+using R5T.D0084.D002;
 using R5T.D0096;
 using R5T.D0101;
 using R5T.D0101.I001;
@@ -35,13 +38,35 @@ namespace R5T.S0023
             IServiceAction<O001_AnalyzeAllCurrentProjects> o001_AnalyzeAllCurrentProjectsAction,
             IServiceAction<O002_UpdateFileBasedProjectRepository> o002_UpdateFileBasedProjectRepositoryAction,
             IServiceAction<O003_PerformRequiredHumanActions> o003_PerformRequiredHumanActionsAction,
-            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction)
+            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
+            IServiceAction<O005_UpdateProjectIntellisense> o005_UpdateProjectIntellisenseAction)
         {
             var serviceAction = _.New<O004_BackupFileBasedProjectRepositoryFiles>(services => services.AddO100_UpdateProjectRepositoryWithCurrentProjects(
                 o001_AnalyzeAllCurrentProjectsAction,
                 o002_UpdateFileBasedProjectRepositoryAction,
                 o003_PerformRequiredHumanActionsAction,
-                o004_BackupFileBasedProjectRepositoryFilesAction));
+                o004_BackupFileBasedProjectRepositoryFilesAction,
+                o005_UpdateProjectIntellisenseAction));
+
+            return serviceAction;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O005_UpdateProjectIntellisense"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceAction<O005_UpdateProjectIntellisense> AddO005_UpdateProjectIntellisenseAction(this IServiceAction _,
+            IServiceAction<IProjectPathExtensionMethodBaseProjectPathProvider> projectPathExtensionMethodBaseProjectPathProviderAction,
+            IServiceAction<IProjectRepository> projectRepositoryAction,
+            IServiceAction<IRepositoriesDirectoryPathProvider> repositoriesDirectoryPathProviderAction,
+            IServiceAction<IVisualStudioProjectFileOperator> visualStudioProjectFileOperatorAction,
+            IServiceAction<IVisualStudioSolutionFileOperator> visualStudioSolutionFileOperatorAction)
+        {
+            var serviceAction = _.New<O005_UpdateProjectIntellisense>(services => services.AddO005_UpdateProjectIntellisense(
+                projectPathExtensionMethodBaseProjectPathProviderAction,
+                projectRepositoryAction,
+                repositoriesDirectoryPathProviderAction,
+                visualStudioProjectFileOperatorAction,
+                visualStudioSolutionFileOperatorAction));
 
             return serviceAction;
         }

@@ -10,6 +10,7 @@ namespace R5T.S0023
             var output = false
                 || humanActionsRequired.ReviewDepartedProjects
                 || humanActionsRequired.ReviewNewDuplicateProjectNames
+                || humanActionsRequired.ReviewNewIgnoredProjectNames
                 || humanActionsRequired.ReviewNewProjects
                 ;
 

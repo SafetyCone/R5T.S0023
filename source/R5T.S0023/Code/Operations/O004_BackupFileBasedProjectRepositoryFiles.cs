@@ -7,7 +7,7 @@ using R5T.D0101.I001;
 
 namespace R5T.S0023
 {
-    public class O004_BackupFileBasedProjectRepositoryFiles : T0020.IOperation
+    public class O004_BackupFileBasedProjectRepositoryFiles : T0020.IActionOperation
     {
         private IBackupProjectRepositoryFilePathsProvider BackupProjectRepositoryFilePathsProvider { get; }
         private IHumanOutput HumanOutput { get; }

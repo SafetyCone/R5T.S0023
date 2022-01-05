@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -22,7 +23,7 @@ namespace R5T.S0023
     /// * New duplicate project names.
     /// This action does *not* modify the repository!
     /// </summary>
-    public class O001_AnalyzeAllCurrentProjects : T0020.IOperation
+    public class O001_AnalyzeAllCurrentProjects : T0020.IActionOperation
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
         private INotepadPlusPlusOperator NotepadPlusPlusOperator { get; }
@@ -60,12 +61,25 @@ namespace R5T.S0023
                 repositoryDuplicateProjectNames,
                 repositoryIgnoredProjectNames);
 
+            // Newly ignored projects.
+            // Selected project names that will be ignored.
+            // Load selected projects.
+            var selectedProjectNames = await this.ProjectRepository.GetAllProjectNameSelections();
+
+            var newIgnoredProjectNames = Instances.Operation.GetNewIgnoredProjectNames(
+                selectedProjectNames,
+                repositoryIgnoredProjectNames);
+
+            var currentProjectGroupsByName = currentProjects.ToDictionaryOfArraysByName();
+
             // Provide a summary of changes.
             var summaryFilePath = await this.SummaryFilePathProvider.GetSummaryFilePath();
 
             using (var textFile = FileHelper.WriteTextFile(summaryFilePath))
             {
-                textFile.WriteLine("New projects:");
+                var newProjectsCount = newProjects.Length;
+
+                textFile.WriteLine($"New projects ({newProjectsCount}):");
                 textFile.WriteLine();
 
                 if(newProjects.None())
@@ -80,8 +94,10 @@ namespace R5T.S0023
                     }
                 }
 
+                var departedProjectsCount = departedProjects.Length;
+
                 textFile.WriteLine();
-                textFile.WriteLine("Departed projects:");
+                textFile.WriteLine($"Departed projects ({departedProjectsCount}):");
                 textFile.WriteLine();
 
                 if(departedProjects.None())
@@ -96,8 +112,10 @@ namespace R5T.S0023
                     }
                 }
 
+                var newDuplicateProjectNamesCount = newDuplicateProjectNames.Length;
+
                 textFile.WriteLine();
-                textFile.WriteLine("New duplicate project names:");
+                textFile.WriteLine($"New duplicate project names ({newDuplicateProjectNamesCount}):");
                 textFile.WriteLine();
 
                 if(newDuplicateProjectNames.None())
@@ -108,7 +126,45 @@ namespace R5T.S0023
                 {
                     foreach (var projectName in newDuplicateProjectNames)
                     {
-                        textFile.WriteLine(projectName);
+                        textFile.WriteLine($"{projectName}:");
+
+                        // Write out paths of duplicates.
+                        var projects = currentProjectGroupsByName[projectName];
+
+                        foreach (var project in projects)
+                        {
+                            textFile.WriteLine($"{project.FilePath}");
+                        }
+
+                        textFile.WriteLine();
+                    }
+                }
+
+                var newIgnoredProjectNamesCount = newIgnoredProjectNames.Length;
+
+                textFile.WriteLine();
+                textFile.WriteLine($"New ignored project names ({newIgnoredProjectNamesCount}):");
+                textFile.WriteLine();
+
+                if (newIgnoredProjectNames.None())
+                {
+                    textFile.WriteLine("<none>");
+                }
+                else
+                {
+                    foreach (var projectName in newIgnoredProjectNames)
+                    {
+                        textFile.WriteLine($"{projectName}:");
+
+                        // Write out paths of newly ignored.
+                        var projects = currentProjectGroupsByName[projectName];
+
+                        foreach (var project in projects)
+                        {
+                            textFile.WriteLine($"{project.FilePath}");
+                        }
+
+                        textFile.WriteLine();
                     }
                 }
             }

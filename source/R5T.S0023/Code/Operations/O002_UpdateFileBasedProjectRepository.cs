@@ -6,7 +6,6 @@ using R5T.Magyar.IO;
 
 using R5T.D0084.D001;
 using R5T.D0101;
-using R5T.D0101.I001;
 
 
 namespace R5T.S0023
@@ -17,7 +16,7 @@ namespace R5T.S0023
     /// 
     /// Note: Be sure to run <see cref="O001_AnalyzeAllCurrentProjects"/> first to get an analysis of changes.
     /// </summary>
-    public class O002_UpdateFileBasedProjectRepository : T0020.IOperation
+    public class O002_UpdateFileBasedProjectRepository : T0020.IActionOperation
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
         private IAllProjectNamesListingFilePathProvider AllProjectNamesListingFilePathProvider { get; }

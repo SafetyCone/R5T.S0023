@@ -16,6 +16,18 @@ namespace R5T.S0023
     public static partial class IServiceCollectionExtensions
     {
         /// <summary>
+        /// Adds the <see cref="ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider"/> implementation of <see cref="IProjectPathExtensionMethodBaseProjectPathProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider(this IServiceCollection services,
+            string projectPathExtensionMethodBaseProjectPath)
+        {
+            services.AddSingleton<IProjectPathExtensionMethodBaseProjectPathProvider>(_ => new ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider(
+                projectPathExtensionMethodBaseProjectPath));
+
+            return services;
+        }
+
+        /// <summary>
         /// Adds the <see cref="BackupProjectRepositoryFilePathsProvider"/> implementation of <see cref="IBackupProjectRepositoryFilePathsProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceCollection AddBackupProjectRepositoryFilePathsProvider(this IServiceCollection services,

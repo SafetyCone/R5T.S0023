@@ -8,5 +8,6 @@ namespace R5T.S0023
         public bool ReviewNewProjects { get; set; }
         public bool ReviewDepartedProjects { get; set; }
         public bool ReviewNewDuplicateProjectNames { get; set; }
+        public bool ReviewNewIgnoredProjectNames { get; set; }
     }
 }

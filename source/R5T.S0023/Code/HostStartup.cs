@@ -10,6 +10,9 @@ using R5T.Ostrogothia.Rivet;
 
 using R5T.A0003;
 using R5T.D0048.Default;
+using R5T.D0077.A002;
+using R5T.D0078.A002;
+using R5T.D0079.A002;
 using R5T.D0081.I001;
 using R5T.D0084.A001;
 using R5T.D0088.I0002;
@@ -68,6 +71,7 @@ namespace R5T.S0023
                 servicesPlatformRequiredServiceActionAggregation);
 
             // Core competencies.
+            var projectPathExtensionMethodBaseProjectPathProviderAction = Instances.ServiceAction.AddConstructorBasedProjectPathExtensionMethodBaseProjectPathProviderAction(@"C:\Code\DEV\Git\GitHub\SafetyCone\R5T.T0040\source\R5T.T0040\R5T.T0040.csproj");
             var backupProjectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddBackupProjectRepositoryFilePathsProviderAction(
                 servicesPlatform.OutputFilePathProviderAction);
 
@@ -76,6 +80,21 @@ namespace R5T.S0023
             var summaryFilePathProviderAction = Instances.ServiceAction.AddSummaryFilePathProviderAction(
                 servicesPlatform.OutputFilePathProviderAction,
                 summaryFileNameProviderAction);
+
+            // Visual Studio operators.
+            var dotnetOperatorActions = Instances.ServiceAction.AddDotnetOperatorActions(
+                servicesPlatform.CommandLineOperatorAction,
+                servicesPlatform.SecretsDirectoryFilePathProviderAction);
+
+            var visualStudioSolutionFileOperatorActions = Instances.ServiceAction.AddVisualStudioSolutionFileOperatorActions(
+                dotnetOperatorActions.DotnetOperatorAction,
+                servicesPlatform.FileNameOperatorAction,
+                servicesPlatform.StringlyTypedPathOperatorAction);
+
+            var visualStudioProjectFileOperatorActions = Instances.ServiceAction.AddVisualStudioProjectFileOperatorActions(
+                dotnetOperatorActions.DotnetOperatorAction,
+                servicesPlatform.FileNameOperatorAction,
+                servicesPlatform.StringlyTypedPathOperatorAction);
 
             // Project repository.
             var projectRepositoryFilePathsProviderAction = Instances.ServiceAction.AddHardCodedProjectRepositoryFilePathsProviderAction();
@@ -106,7 +125,7 @@ namespace R5T.S0023
 
             var notepadPlusPlusOperatorAction = Instances.ServiceAction.AddNotepadPlusPlusOperatorAction(
                 //commandLineOperatorAction,
-                servicesPlatform.CommandLineOperatorAction,
+                servicesPlatform.BaseCommandLineOperatorAction,
                 notepadPlusPlusExecutableFilePathProviderAction);
 
             // Operations
@@ -133,12 +152,19 @@ namespace R5T.S0023
                 backupProjectRepositoryFilePathsProviderAction,
                 servicesPlatform.HumanOutputAction,
                 projectRepositoryFilePathsProviderAction);
+            var o005_UpdateProjectIntellisenseAction = Instances.ServiceAction.AddO005_UpdateProjectIntellisenseAction(
+                projectPathExtensionMethodBaseProjectPathProviderAction,
+                projectRepositoryAction,
+                repositoriesDirectoryPathProviderAction,
+                visualStudioProjectFileOperatorActions.VisualStudioProjectFileOperatorAction,
+                visualStudioSolutionFileOperatorActions.VisualStudioSolutionFileOperatorAction);
 
             var o100_UpdateProjectRepositoryWithCurrentProjectsAction = Instances.ServiceAction.AddO100_UpdateProjectRepositoryWithCurrentProjectsAction(
                 o001_AnalyzeAllCurrentProjects,
                 o002_UpdateFileBasedProjectRepositoryAction,
                 o003_PerformRequiredHumanActionsAction,
-                o004_BackupFileBasedProjectRepositoryFilesAction);
+                o004_BackupFileBasedProjectRepositoryFilesAction,
+                o005_UpdateProjectIntellisenseAction);
 
             var o900_OpenAllProjectRepositoryFilesAction = Instances.ServiceAction.AddO900_OpenAllProjectRepositoryFilesAction(
                 notepadPlusPlusOperatorAction,
@@ -183,6 +209,7 @@ namespace R5T.S0023
                 .Run(o002_UpdateFileBasedProjectRepositoryAction)
                 .Run(o003_PerformRequiredHumanActionsAction)
                 .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o005_UpdateProjectIntellisenseAction)
                 .Run(o100_UpdateProjectRepositoryWithCurrentProjectsAction)
                 .Run(o900_OpenAllProjectRepositoryFilesAction)
                 ;

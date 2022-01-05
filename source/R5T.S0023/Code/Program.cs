@@ -79,18 +79,23 @@ namespace R5T.S0023
 
             await this.ServiceProvider.Run<O100_UpdateProjectRepositoryWithCurrentProjects>();
 
+            //await this.ServiceProvider.Run<O005_UpdateProjectIntellisense>();
             //await this.ServiceProvider.Run<O004_BackupFileBasedProjectRepositoryFiles>();
             //await this.ServiceProvider.Run<O003_PerformRequiredHumanActions>();
             //await this.ServiceProvider.Run<O002_UpdateFileBasedProjectRepository>();
             //await this.ServiceProvider.Run<O001_AnalyzeAllCurrentProjects>();
         }
 
+        #region Extra
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private async Task RunMethod()
         {
             //await this.TestMachineMessageDeserialization();
             await this.TestOutput();
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("CodeQuality", "IDE0051:Remove unused private members", Justification = "<Pending>")]
         private async Task TestMachineMessageDeserialization()
         {
             var filePathProvider = this.ServiceProvider.GetRequiredService<IMachineOutputFilePathProvider>();
@@ -115,6 +120,7 @@ namespace R5T.S0023
             }
         }
 
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Style", "IDE0059:Unnecessary assignment of a value", Justification = "<Pending>")]
         private Task TestOutput()
         {
             // Test exclusive use console.
@@ -146,5 +152,7 @@ namespace R5T.S0023
 
             return Task.CompletedTask;
         }
+
+        #endregion
     }
 }
