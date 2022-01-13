@@ -6,7 +6,6 @@ using R5T.Quadia.D002;
 
 using R5T.D0048;
 using R5T.D0084.D002;
-using R5T.D0101.I001;
 using R5T.T0062;
 using R5T.T0063;
 
@@ -62,15 +61,6 @@ namespace R5T.S0023
                 allProjectNamesListingFileNameProviderAction,
                 organizationSharedDataDirectoryFilePathProviderAction));
 
-            return serviceAction;
-        }
-
-        /// <summary>
-        /// Adds the <see cref="HardCodedRepositoriesDirectoryPathProvider"/> implementation of <see cref="IRepositoriesDirectoryPathProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceAction<IRepositoriesDirectoryPathProvider> AddHardCodedRepositoriesDirectoryPathProviderAction(this IServiceAction _)
-        {
-            var serviceAction = _.New<IRepositoriesDirectoryPathProvider>(services => services.AddHardCodedRepositoriesDirectoryPathProvider());
             return serviceAction;
         }
 

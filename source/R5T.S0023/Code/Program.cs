@@ -75,10 +75,14 @@ namespace R5T.S0023
 
         private async Task RunOperation()
         {
+            await this.ServiceProvider.Run<O000_Main>();
+
             //await this.ServiceProvider.Run<O900_OpenAllProjectRepositoryFiles>();
 
-            await this.ServiceProvider.Run<O100_UpdateProjectRepositoryWithCurrentProjects>();
+            //await this.ServiceProvider.Run<O100_UpdateProjectRepositoryWithCurrentProjects>();
 
+            //await this.ServiceProvider.Run<O008_UpdateRepositoryWithSelectedProjects>();
+            //await this.ServiceProvider.Run<O007_UpdateRepositoryWithAllProjects>();
             //await this.ServiceProvider.Run<O005_UpdateProjectIntellisense>();
             //await this.ServiceProvider.Run<O004_BackupFileBasedProjectRepositoryFiles>();
             //await this.ServiceProvider.Run<O003_PerformRequiredHumanActions>();

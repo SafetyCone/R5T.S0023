@@ -10,7 +10,7 @@ namespace R5T.S0023
 {
     public static class IProjectRepositoryExtensions
     {
-        public static Project[] GetExpectedUniqueProjects(this IProjectRepository projectRepository,
+        public static Project[] GetExpectedUniqueProjects(this IProjectRepository _,
             Project[] projects,
             ProjectNameSelection[] duplicateProjectNameSelections,
             string[] ignoredProjectNames)
@@ -34,6 +34,24 @@ namespace R5T.S0023
                 ignoredProjectNames);
 
             return uniqueProjects;
+        }
+
+        public static async Task<ProjectRepositoryState> GetState(this IProjectRepository projectRepository)
+        {
+            var (Task1Result, Task2Result, Task3Result, Task4Result) = await TaskHelper.WhenAll(
+                projectRepository.GetAllDuplicateProjectNameSelections(),
+                projectRepository.GetAllIgnoredProjectNames(),
+                projectRepository.GetAllProjectNameSelections(),
+                projectRepository.GetAllProjects());
+
+            var output = new ProjectRepositoryState()
+                .FillFrom(
+                    Task1Result,
+                    Task2Result,
+                    Task3Result,
+                    Task4Result);
+
+            return output;
         }
 
         public static async Task UpdateProjectNameSelections(this IProjectRepository projectRepository)

@@ -42,32 +42,32 @@ namespace R5T.S0023
             // * Review list of new projects.
             if (humanActionsRequired.ReviewNewProjects)
             {
-                Console.WriteLine("*) Review the list of new projects.\n");
+                Console.WriteLine("=> Review the list of new projects.\n");
                 Console.WriteLine("Press enter to continue...");
                 Console.ReadLine();
 
                 // * For any new projects that should be ignored, add to the ignored projects file: <ignored projects file path>.
                 await this.NotepadPlusPlusOperator.OpenFilePath(ignoredProjectNamesTextFilePath);
 
-                Console.WriteLine($"*) Add any project names that should be ignored to the ignored project names file:\n{ignoredProjectNamesTextFilePath}\n");
+                Console.WriteLine($"=> Add any project names that should be ignored to the ignored project names file:\n{ignoredProjectNamesTextFilePath}\n");
                 Console.WriteLine("Press enter when finished...");
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("*) No new projects to review or ignore.\n");
+                Console.WriteLine("No new projects to review or ignore. (ok)\n");
             }
 
             // * Review list of departed projects.
             if (humanActionsRequired.ReviewDepartedProjects)
             {
-                Console.WriteLine("*) Review the list of departed projects.\nNote: departed project names will be removed from the lists of ignored and selected project names.");
+                Console.WriteLine("=> Review the list of departed projects.\nNote: departed project names will be removed from the lists of ignored and selected project names.\n");
                 Console.WriteLine("Press enter to continue...");
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("*) No departed projects to review.\n");
+                Console.WriteLine("No departed projects to review. (ok)\n");
             }
 
             // * Choose among duplicates in list of new duplicate projects by modifying the duplicate selections file: <duplicate selections file path>.
@@ -75,25 +75,25 @@ namespace R5T.S0023
             {
                 await this.NotepadPlusPlusOperator.OpenFilePath(duplicateProjectNamesTextFilePath);
 
-                Console.WriteLine($"*) Review the list of new duplicate project names. Select one of the projects from the list of duplicates for each name and add to the duplicate project names file:\n{duplicateProjectNamesTextFilePath}\n");
+                Console.WriteLine($"=> Review the list of new duplicate project names. Select one of the projects from the list of duplicates for each name and add to the duplicate project names file:\n{duplicateProjectNamesTextFilePath}\n");
                 Console.WriteLine("Press enter when finished...");
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("*) No new duplicate project names to choose among.\n");
+                Console.WriteLine("No new duplicate project names to choose among. (ok)\n");
             }
 
             // * Review list of newly ignored projects.
             if (humanActionsRequired.ReviewNewIgnoredProjectNames)
             {
-                Console.WriteLine($"*) Review the list of new ignored project names.");
+                Console.WriteLine($"=> Review the list of new ignored project names.\n");
                 Console.WriteLine("Press enter when finished...");
                 Console.ReadLine();
             }
             else
             {
-                Console.WriteLine("*) No new ignored project names to choose among.\n");
+                Console.WriteLine("No new ignored project names to choose among. (ok)\n");
             }
         }
     }

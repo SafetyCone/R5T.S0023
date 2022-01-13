@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
-
-using R5T.Magyar.IO;
 
 using R5T.D0084.D001;
 using R5T.D0101;
@@ -19,18 +16,18 @@ namespace R5T.S0023
     public class O002_UpdateFileBasedProjectRepository : T0020.IActionOperation
     {
         private IAllProjectFilePathsProvider AllProjectFilePathsProvider { get; }
-        private IAllProjectNamesListingFilePathProvider AllProjectNamesListingFilePathProvider { get; }
         private IProjectRepository ProjectRepository { get; }
+        private O009_UpdateAllProjectNamesListingFile O009_UpdateAllProjectNamesListingFile { get; }
 
 
         public O002_UpdateFileBasedProjectRepository(
             IAllProjectFilePathsProvider allProjectFilePathsProvider,
-            IAllProjectNamesListingFilePathProvider allProjectNamesListingFilePathProvider,
-            IProjectRepository projectRepository)
+            IProjectRepository projectRepository,
+            O009_UpdateAllProjectNamesListingFile o009_UpdateAllProjectNamesListingFile)
         {
             this.AllProjectFilePathsProvider = allProjectFilePathsProvider;
-            this.AllProjectNamesListingFilePathProvider = allProjectNamesListingFilePathProvider;
             this.ProjectRepository = projectRepository;
+            this.O009_UpdateAllProjectNamesListingFile = o009_UpdateAllProjectNamesListingFile;
         }
 
         public async Task Run()
@@ -38,7 +35,7 @@ namespace R5T.S0023
             // Get all repository projects.
             var repositoryProjects = await this.ProjectRepository.GetAllProjects();
 
-            var (currentProjects, newProjects, departedProjects) = await Instances.Operation.GetProjectChanges(
+            var (_, newProjects, departedProjects) = await Instances.Operation.GetProjectChanges(
                 this.AllProjectFilePathsProvider,
                 repositoryProjects);
 
@@ -51,20 +48,7 @@ namespace R5T.S0023
             // Update the name selections using the project list, ignored names list, and duplicate name selections.
             await this.ProjectRepository.UpdateProjectNameSelections();
 
-            // Then update the list of all project names (including any duplicates).
-            // Get all projects again, now with new projects added and departed projects removed.
-            var allProjects = await this.ProjectRepository.GetAllProjects();
-
-            var allProjectNamesInOrder = allProjects
-                .Select(xProject => xProject.Name)
-                .OrderAlphabetically()
-                ;
-
-            var allProjectNamesListingFilePath = await this.AllProjectNamesListingFilePathProvider.GetAllProjectNamesListingFilePath();
-
-            FileHelper.WriteAllLinesSynchronous(
-                allProjectNamesListingFilePath,
-                allProjectNamesInOrder);
+            await this.O009_UpdateAllProjectNamesListingFile.Run();
         }
     }
 }

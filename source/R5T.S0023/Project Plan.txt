@@ -1,4 +1,5 @@
-R5T.S0023 - Survey local project files to build data repository.
+R5T.S0023 - Survey local project files to build a project file data repository.
+
 
 GOALS:
 

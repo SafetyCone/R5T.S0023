@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 namespace R5T.S0023
 {
+    /// <summary>
+    /// <inheritdoc cref="IProjectPathExtensionMethodBaseProjectPathProvider"/>
+    /// </summary>
     public class ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider : IProjectPathExtensionMethodBaseProjectPathProvider
     {
         private string ProjectPathExtensionMethodBaseProjectPath { get; }

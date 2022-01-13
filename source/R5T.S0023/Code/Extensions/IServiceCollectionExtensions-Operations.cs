@@ -19,6 +19,19 @@ namespace R5T.S0023
     public static partial class IServiceCollectionExtensions
     {
         /// <summary>
+        /// Adds the <see cref="O000_Main"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO000_Main(this IServiceCollection services,
+            IServiceAction<O101_UpdateRepository> o101_UpdateRepositoryAction)
+        {
+            services
+                .Run(o101_UpdateRepositoryAction)
+                .AddSingleton<O000_Main>();
+
+            return services;
+        }
+
+        /// <summary>
         /// Adds the <see cref="O900_OpenAllProjectRepositoryFiles"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceCollection AddO900_OpenAllProjectRepositoryFiles(this IServiceCollection services,
@@ -29,6 +42,27 @@ namespace R5T.S0023
                 .Run(notepadPlusPlusOperatorAction)
                 .Run(projectRepositoryFilePathsProviderAction)
                 .AddSingleton<O900_OpenAllProjectRepositoryFiles>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O101_UpdateRepository"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO101_UpdateRepository(this IServiceCollection services,
+            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
+            IServiceAction<O005_UpdateProjectIntellisense> o005_UpdateProjectIntellisenseAction,
+            IServiceAction<O007a_UpdateRepositoryWithAllProjects> o007a_UpdateRepositoryWithAllProjectsAction,
+            IServiceAction<O008a_UpdateRepositoryWithSelectedProjects> o008a_UpdateRepositoryWithSelectedProjectsAction,
+            IServiceAction<O009_UpdateAllProjectNamesListingFile> o009_UpdateAllProjectNamesListingFileAction)
+        {
+            services
+                .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o005_UpdateProjectIntellisenseAction)
+                .Run(o007a_UpdateRepositoryWithAllProjectsAction)
+                .Run(o008a_UpdateRepositoryWithSelectedProjectsAction)
+                .Run(o009_UpdateAllProjectNamesListingFileAction)
+                .AddSingleton<O101_UpdateRepository>();
 
             return services;
         }
@@ -50,6 +84,85 @@ namespace R5T.S0023
                 .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
                 .Run(o005_UpdateProjectIntellisenseAction)
                 .AddSingleton<O100_UpdateProjectRepositoryWithCurrentProjects>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O009_UpdateAllProjectNamesListingFile"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO009_UpdateAllProjectNamesListingFile(this IServiceCollection services,
+            IServiceAction<IAllProjectNamesListingFilePathProvider> allProjectNamesListingFilePathProviderAction,
+            IServiceAction<IProjectRepository> projectRepositoryAction)
+        {
+            services
+                .Run(allProjectNamesListingFilePathProviderAction)
+                .Run(projectRepositoryAction)
+                .AddSingleton<O009_UpdateAllProjectNamesListingFile>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O008a_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO008a_UpdateRepositoryWithSelectedProjects(this IServiceCollection services,
+            IServiceAction<INotepadPlusPlusOperator> notepadPlusPlusOperatorAction,
+            IServiceAction<IProjectRepository> projectRepositoryAction)
+        {
+            services
+                .Run(notepadPlusPlusOperatorAction)
+                .Run(projectRepositoryAction)
+                .AddSingleton<O008a_UpdateRepositoryWithSelectedProjects>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O008_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO008_UpdateRepositoryWithSelectedProjects(this IServiceCollection services,
+            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
+            IServiceAction<O008a_UpdateRepositoryWithSelectedProjects> o008a_UpdateRepositoryWithSelectedProjectsAction)
+        {
+            services
+                .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o008a_UpdateRepositoryWithSelectedProjectsAction)
+                .AddSingleton<O008_UpdateRepositoryWithSelectedProjects>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O007a_UpdateRepositoryWithAllProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO007a_UpdateRepositoryWithAllProjects(this IServiceCollection services,
+            IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,
+            IServiceAction<INotepadPlusPlusOperator> notepadPlusPlusOperatorAction,
+            IServiceAction<ISummaryFilePathProvider> summaryFilePathProviderAction,
+            IServiceAction<IProjectRepository> projectRepositoryAction)
+        {
+            services
+                .Run(allProjectFilePathsProviderAction)
+                .Run(notepadPlusPlusOperatorAction)
+                .Run(summaryFilePathProviderAction)
+                .Run(projectRepositoryAction)
+                .AddSingleton<O007a_UpdateRepositoryWithAllProjects>();
+
+            return services;
+        }
+
+        /// <summary>
+        /// Adds the <see cref="O007_UpdateRepositoryWithAllProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// </summary>
+        public static IServiceCollection AddO007_UpdateRepositoryWithAllProjects(this IServiceCollection services,
+            IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
+            IServiceAction<O007a_UpdateRepositoryWithAllProjects> o007a_UpdateRepositoryWithAllProjectsAction)
+        {
+            services
+                .Run(o004_BackupFileBasedProjectRepositoryFilesAction)
+                .Run(o007a_UpdateRepositoryWithAllProjectsAction)
+                .AddSingleton<O007_UpdateRepositoryWithAllProjects>();
 
             return services;
         }
@@ -143,13 +256,13 @@ namespace R5T.S0023
         /// </summary>
         public static IServiceCollection AddO002_UpdateFileBasedProjectRepository(this IServiceCollection services,
             IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,
-            IServiceAction<IAllProjectNamesListingFilePathProvider> allProjectNamesListingFilePathProviderAction,
-            IServiceAction<IProjectRepository> projectRepositoryAction)
+            IServiceAction<IProjectRepository> projectRepositoryAction,
+            IServiceAction<O009_UpdateAllProjectNamesListingFile> o009_UpdateAllProjectNamesListingFileAction)
         {
             services
                 .Run(allProjectFilePathsProviderAction)
-                .Run(allProjectNamesListingFilePathProviderAction)
                 .Run(projectRepositoryAction)
+                .Run(o009_UpdateAllProjectNamesListingFileAction)
                 .AddSingleton<O002_UpdateFileBasedProjectRepository>();
 
             return services;

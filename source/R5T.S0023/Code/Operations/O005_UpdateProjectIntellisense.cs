@@ -7,6 +7,7 @@ using R5T.D0078;
 using R5T.D0079;
 using R5T.D0084.D002;
 using R5T.D0101;
+using R5T.T0020;
 
 using R5T.S0023.Library;
 
@@ -16,7 +17,8 @@ namespace R5T.S0023
     /// <summary>
     /// 
     /// </summary>
-    public class O005_UpdateProjectIntellisense : T0020.IActionOperation
+    [OperationMarker]
+    public class O005_UpdateProjectIntellisense : IActionOperation
     {
         private IProjectPathExtensionMethodBaseProjectPathProvider ProjectPathExtensionMethodBaseProjectPathProvider { get; }
         private IProjectRepository ProjectRepository { get; }
@@ -42,8 +44,8 @@ namespace R5T.S0023
         public async Task Run()
         {
             // Inputs.
-            var localDataLibraryName = "LocalData"; // No R5T prefix.
-            var localDataLibraryDescription = "Library for extension methods providing intellisense entries for all local data.";
+            var localDataLibraryName = Instances.LibraryName.LocalData();
+            var localDataLibraryDescription = Instances.LibraryDescription.LocalData();
 
             // Run.
             // Projects.

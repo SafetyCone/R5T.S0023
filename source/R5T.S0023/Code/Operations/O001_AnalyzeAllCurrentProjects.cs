@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -77,40 +78,10 @@ namespace R5T.S0023
 
             using (var textFile = FileHelper.WriteTextFile(summaryFilePath))
             {
-                var newProjectsCount = newProjects.Length;
-
-                textFile.WriteLine($"New projects ({newProjectsCount}):");
-                textFile.WriteLine();
-
-                if(newProjects.None())
-                {
-                    textFile.WriteLine("<none>");
-                }
-                else
-                {
-                    foreach (var project in newProjects)
-                    {
-                        textFile.WriteLine(project.Name);
-                    }
-                }
-
-                var departedProjectsCount = departedProjects.Length;
-
-                textFile.WriteLine();
-                textFile.WriteLine($"Departed projects ({departedProjectsCount}):");
-                textFile.WriteLine();
-
-                if(departedProjects.None())
-                {
-                    textFile.WriteLine("<none>");
-                }
-                else
-                {
-                    foreach (var project in departedProjects)
-                    {
-                        textFile.WriteLine(project.Name);
-                    }
-                }
+                Instances.Operation.WriteNewAndDepartedSummaryFile(
+                    textFile,
+                    newProjects,
+                    departedProjects);
 
                 var newDuplicateProjectNamesCount = newDuplicateProjectNames.Length;
 

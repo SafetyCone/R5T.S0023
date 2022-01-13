@@ -67,16 +67,6 @@ namespace R5T.S0023
             return services;
         }
 
-        /// <summary>
-        /// Adds the <see cref="HardCodedRepositoriesDirectoryPathProvider"/> implementation of <see cref="IRepositoriesDirectoryPathProvider"/> as a <see cref="ServiceLifetime.Singleton"/>.
-        /// </summary>
-        public static IServiceCollection AddHardCodedRepositoriesDirectoryPathProvider(this IServiceCollection services)
-        {
-            services.AddSingleton<IRepositoriesDirectoryPathProvider, HardCodedRepositoriesDirectoryPathProvider>();
-
-            return services;
-        }
-
         public static IServiceCollection AddHostStartup(this IServiceCollection services)
         {
             var dependencyServiceActions = new DependencyServiceActionAggregation();

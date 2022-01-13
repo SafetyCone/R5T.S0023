@@ -7,7 +7,7 @@ using Instances = R5T.S0023.Library.Instances;
 
 namespace System
 {
-    public static class CodeFileNameExtensions
+    public static class ICodeFileNameExtensions
     {
         public static string IProjectPathExtensions(this ICodeFileName _)
         {

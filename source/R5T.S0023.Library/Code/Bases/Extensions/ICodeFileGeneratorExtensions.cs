@@ -14,11 +14,11 @@ namespace R5T.S0023.Library
             string namespaceName,
             string filePath)
         {
-            var class1CompilationUnit = Instances.CompilationUnitGenerator.GetIProjectPathExtensions(
+            var compilationUnit = Instances.CompilationUnitGenerator.GetIProjectPathExtensions(
                 projects,
                 namespaceName);
 
-            class1CompilationUnit.WriteTo(filePath);
+            compilationUnit.WriteTo(filePath);
         }
     }
 }
