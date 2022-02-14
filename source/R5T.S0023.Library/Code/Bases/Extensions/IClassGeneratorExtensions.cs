@@ -15,16 +15,13 @@ namespace R5T.S0023.Library
         public static ClassDeclarationSyntax GetIProjectPathExtensions(this IClassGenerator _,
             IEnumerable<Project> projects)
         {
-            var indentation = Instances.Indentation.Method();
-
             var methods = projects
-                .Select(xProject => Instances.MethodGenerator.GetProjectPathExtension(xProject)
-                    .IndentBlock(indentation))
+                .Select(xProject => Instances.MethodGenerator.GetProjectPathExtension(xProject))
                 .ToArray();
 
             var output = _.GetPublicStaticClass(
                 Instances.TypeName.IProjectPathExtensions())
-                .AddMembersWithLineSpacing(methods)
+                .AddMembersWithBlankLineSeparation(methods)
                 ;
 
             return output;

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 using R5T.Magyar;
@@ -51,6 +52,11 @@ namespace R5T.S0023
             // Projects.
             var projects = await this.ProjectRepository.GetSelectedProjects();
 
+            // For debugging.
+            var project = projects
+                .Where(xProject => xProject.Name == "R5T.T0123.X001")
+                .Single();
+
             // Repository.
             var repositoryName = Instances.LibraryNameOperator.GetRepositoryName(localDataLibraryName);
 
@@ -88,27 +94,25 @@ namespace R5T.S0023
                                 projectSpecification,
                                 this.VisualStudioProjectFileOperator,
                                 this.VisualStudioSolutionFileOperator,
-                                projectFileContext =>
+                                async projectFileContext =>
                                 {
                                     // Create /Code/Bases/Extensions/IProjectPathExtensions.cs.
                                     // Code file.
-                                    projectFileContext.InProjectSubDirectoryPathContextSynchronous(
+                                    await projectFileContext.InProjectSubDirectoryPathContext(
                                         Instances.ProjectPathsOperator.GetBasesExtensionsDirectoryRelativePath(),
-                                        basesExtensionsDirectoryPathContext =>
+                                        async basesExtensionsDirectoryPathContext =>
                                         {
-                                            basesExtensionsDirectoryPathContext.InProjectSubFilePathContextSynchronous(
+                                            await basesExtensionsDirectoryPathContext.InProjectSubFilePathContext(
                                                 Instances.CodeFileName.IProjectPathExtensions(),
-                                                filePathContext =>
+                                                async filePathContext =>
                                                 {
                                                     // Code file generator, compilation unit generator, class generator, and method generator.
-                                                    Instances.CodeFileGenerator.CreateIProjectPathExtensions(
+                                                    await Instances.CodeFileGenerator.CreateIProjectPathExtensions(
                                                         projects,
                                                         projectSpecification.DefaultNamespaceName,
                                                         filePathContext.FilePath);
                                                 });
                                         });
-
-                                    return Task.CompletedTask;
                                 });
                         });
                 });
