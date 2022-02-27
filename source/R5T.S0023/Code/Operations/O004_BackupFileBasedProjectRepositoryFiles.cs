@@ -51,9 +51,12 @@ namespace R5T.S0023
                 var sourceFilePath = fileBackupSourceDestinationPair.Task1Result;
                 var destinationFilePath = fileBackupSourceDestinationPair.Task2Result;
 
-                Instances.FileSystemOperator.CopyFile(sourceFilePath, destinationFilePath);
+                if(Instances.FileSystemOperator.FileExists(sourceFilePath))
+                {
+                    Instances.FileSystemOperator.CopyFile(sourceFilePath, destinationFilePath);
 
-                this.HumanOutput.WriteLine($"File based project repository file back-up copy made:\nSource:\n{sourceFilePath}\nDestination:\n{destinationFilePath}\n");
+                    this.HumanOutput.WriteLine($"File based project repository file back-up copy made:\nSource:\n{sourceFilePath}\nDestination:\n{destinationFilePath}\n");
+                }
             }
         }
     }
