@@ -16,7 +16,10 @@ namespace R5T.S0023.Library
             IEnumerable<Project> projects)
         {
             var methods = projects
-                .Select(xProject => Instances.MethodGenerator.GetProjectPathExtension(xProject))
+                .Select(xProject => Instances.MethodGenerator.GetProjectPathExtension(
+                    xProject,
+                    // Allow use of blank line separation below.
+                    false))
                 .ToArray();
 
             var output = _.GetPublicStaticClass(

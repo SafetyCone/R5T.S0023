@@ -10,7 +10,7 @@ namespace R5T.S0023.Library
 {
     public static class IMethodGeneratorExtensions
     {
-        public static MethodDeclarationSyntax GetProjectPathExtension(this IMethodGenerator _,
+        public static MethodDeclarationSyntax GetProjectPathExtension_WithoutMethodIndentation(this IMethodGenerator _,
             Project project)
         {
             var projectMethodName = Instances.ProjectNameOperator.GetMethodNameForProjectName(project.Name);
@@ -22,8 +22,20 @@ public static string {projectMethodName}(this {Instances.TypeName.IProjectPath()
 }}
 ";
 
-            var method = _.GetMethodDeclarationFromText(text);
+            var method = _.GetMethodDeclarationFromText_TrimOnly(text);
             return method;
+        }
+
+        public static MethodDeclarationSyntax GetProjectPathExtension(this IMethodGenerator _,
+            Project project,
+            bool prependNewLineToFirstToken = false)
+        {
+            var output = _.GetProjectPathExtension_WithoutMethodIndentation(project)
+                .IndentBlock(
+                    Instances.Indentation.Method(),
+                    prependNewLineToFirstToken);
+
+            return output;
         }
     }
 }
