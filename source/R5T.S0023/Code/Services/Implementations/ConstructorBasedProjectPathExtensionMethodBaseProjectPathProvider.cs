@@ -1,5 +1,7 @@
-﻿using System;
+using System;
 using System.Threading.Tasks;
+
+using R5T.T0064;
 
 
 namespace R5T.S0023
@@ -7,13 +9,14 @@ namespace R5T.S0023
     /// <summary>
     /// <inheritdoc cref="IProjectPathExtensionMethodBaseProjectPathProvider"/>
     /// </summary>
-    public class ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider : IProjectPathExtensionMethodBaseProjectPathProvider
+    [ServiceImplementationMarker]
+    public class ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider : IProjectPathExtensionMethodBaseProjectPathProvider, IServiceImplementation
     {
         private string ProjectPathExtensionMethodBaseProjectPath { get; }
 
 
         public ConstructorBasedProjectPathExtensionMethodBaseProjectPathProvider(
-            string projectPathExtensionMethodBaseProjectPath)
+            [NotServiceComponent] string projectPathExtensionMethodBaseProjectPath)
         {
             this.ProjectPathExtensionMethodBaseProjectPath = projectPathExtensionMethodBaseProjectPath;
         }

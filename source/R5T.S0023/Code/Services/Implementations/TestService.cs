@@ -11,7 +11,7 @@ using Instances = R5T.S0023.Instances;
 namespace R5T.Yabbo
 {
     [ServiceImplementationMarker]
-    public class TestService : IServiceImplementation
+    public class TestService : INoServiceDefinition, IServiceImplementation
     {
         private ILogger Logger { get; }
 

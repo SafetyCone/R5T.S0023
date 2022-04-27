@@ -13,7 +13,7 @@ namespace R5T.S0023
 
 
         public ConstructorBasedAllProjectNamesListingFileNameProvider(
-            string allProjectNamesListingFileName)
+            [NotServiceComponent] string allProjectNamesListingFileName)
         {
             this.AllProjectNamesListingFileName = allProjectNamesListingFileName;
         }
