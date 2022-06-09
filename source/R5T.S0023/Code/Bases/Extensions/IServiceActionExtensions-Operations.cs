@@ -18,7 +18,7 @@ namespace R5T.S0023
     public static partial class IServiceActionExtensions
     {
         /// <summary>
-        /// Adds the <see cref="O000_Main"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O000_Main"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O000_Main> AddO000_MainAction(this IServiceAction _,
             IServiceAction<O101_UpdateRepository> o101_UpdateRepositoryAction)
@@ -30,7 +30,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O900_OpenAllProjectRepositoryFiles"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O900_OpenAllProjectRepositoryFiles"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O900_OpenAllProjectRepositoryFiles> AddO900_OpenAllProjectRepositoryFilesAction(this IServiceAction _,
             IServiceAction<INotepadPlusPlusOperator> notepadPlusPlusOperatorAction,
@@ -44,7 +44,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O101_UpdateRepository"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O101_UpdateRepository"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O101_UpdateRepository> AddO101_UpdateRepositoryAction(this IServiceAction _,
             IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
@@ -64,7 +64,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O100_UpdateProjectRepositoryWithCurrentProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O100_UpdateProjectRepositoryWithCurrentProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O100_UpdateProjectRepositoryWithCurrentProjects> AddO100_UpdateProjectRepositoryWithCurrentProjectsAction(this IServiceAction _,
             IServiceAction<O001_AnalyzeAllCurrentProjects> o001_AnalyzeAllCurrentProjectsAction,
@@ -84,7 +84,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O009_UpdateAllProjectNamesListingFile"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O009_UpdateAllProjectNamesListingFile"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O009_UpdateAllProjectNamesListingFile> AddO009_UpdateAllProjectNamesListingFileAction(this IServiceAction _,
             IServiceAction<IAllProjectNamesListingFilePathProvider> allProjectNamesListingFilePathProviderAction,
@@ -98,7 +98,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O008a_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O008a_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O008a_UpdateRepositoryWithSelectedProjects> AddO008a_UpdateRepositoryWithSelectedProjectsAction(this IServiceAction _,
             IServiceAction<INotepadPlusPlusOperator> notepadPlusPlusOperatorAction,
@@ -112,7 +112,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O008_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O008_UpdateRepositoryWithSelectedProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O008_UpdateRepositoryWithSelectedProjects> AddO008_UpdateRepositoryWithSelectedProjectsAction(this IServiceAction _,
             IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
@@ -126,7 +126,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O007a_UpdateRepositoryWithAllProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O007a_UpdateRepositoryWithAllProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O007a_UpdateRepositoryWithAllProjects> AddO007a_UpdateRepositoryWithAllProjects(this IServiceAction _,
             IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,
@@ -144,7 +144,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O007_UpdateRepositoryWithAllProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O007_UpdateRepositoryWithAllProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O007_UpdateRepositoryWithAllProjects> AddO007_UpdateRepositoryWithAllProjects(this IServiceAction _,
             IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> o004_BackupFileBasedProjectRepositoryFilesAction,
@@ -158,7 +158,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O005_UpdateProjectIntellisense"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O005_UpdateProjectIntellisense"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O005_UpdateProjectIntellisense> AddO005_UpdateProjectIntellisenseAction(this IServiceAction _,
             IServiceAction<IProjectPathExtensionMethodBaseProjectPathProvider> projectPathExtensionMethodBaseProjectPathProviderAction,
@@ -178,7 +178,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O004_BackupFileBasedProjectRepositoryFiles"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O004_BackupFileBasedProjectRepositoryFiles"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O004_BackupFileBasedProjectRepositoryFiles> AddO004_BackupFileBasedProjectRepositoryFilesAction(this IServiceAction _,
             IServiceAction<IBackupProjectRepositoryFilePathsProvider> backupProjectRepositoryFilePathsProviderAction,
@@ -194,7 +194,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O003b_PromptForRequiredHumanActionsCore"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O003b_PromptForRequiredHumanActionsCore"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O003b_PromptForRequiredHumanActionsCore> AddO003b_PromptForRequiredHumanActionsCoreAction(this IServiceAction _,
             IServiceAction<INotepadPlusPlusOperator> notepadPlusPlusOperatorAction,
@@ -210,7 +210,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O003a_DetermineIfHumanActionsAreRequired"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O003a_DetermineIfHumanActionsAreRequired"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O003a_DetermineIfHumanActionsAreRequired> AddO003a_DetermineIfHumanActionsAreRequiredAction(this IServiceAction _)
         {
@@ -219,7 +219,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O003_PerformRequiredHumanActions"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O003_PerformRequiredHumanActions"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O003_PerformRequiredHumanActions> AddO003_PerformRequiredHumanActionsAction(this IServiceAction _,
             IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,
@@ -237,7 +237,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O002_UpdateFileBasedProjectRepository"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O002_UpdateFileBasedProjectRepository"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O002_UpdateFileBasedProjectRepository> AddO002_UpdateFileBasedProjectRepositoryAction(this IServiceAction _,
             IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,
@@ -253,7 +253,7 @@ namespace R5T.S0023
         }
 
         /// <summary>
-        /// Adds the <see cref="O001_AnalyzeAllCurrentProjects"/> operation as a <see cref="ServiceLifetime.Singleton"/>.
+        /// Adds the <see cref="O001_AnalyzeAllCurrentProjects"/> operation as a <see cref="Microsoft.Extensions.DependencyInjection.ServiceLifetime.Singleton"/>.
         /// </summary>
         public static IServiceAction<O001_AnalyzeAllCurrentProjects> AddO001_AnalyzeAllCurrentProjectsAction(this IServiceAction _,
             IServiceAction<IAllProjectFilePathsProvider> allProjectFilePathsProviderAction,

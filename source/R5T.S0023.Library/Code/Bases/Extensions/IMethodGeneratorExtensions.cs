@@ -31,7 +31,7 @@ public static string {projectMethodName}(this {Instances.TypeName.IProjectPath()
             bool prependNewLineToFirstToken = false)
         {
             var output = _.GetProjectPathExtension_WithoutMethodIndentation(project)
-                .IndentBlock(
+                .IndentBlock_Old(
                     Instances.Indentation.Method(),
                     prependNewLineToFirstToken);
 
