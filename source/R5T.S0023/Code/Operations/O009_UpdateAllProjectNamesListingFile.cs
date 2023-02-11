@@ -37,7 +37,7 @@ namespace R5T.S0023
 
             var allProjectNamesListingFilePath = await this.AllProjectNamesListingFilePathProvider.GetAllProjectNamesListingFilePath();
 
-            FileHelper.WriteAllLinesSynchronous(
+            FileHelper.WriteAllLines_Synchronous(
                 allProjectNamesListingFilePath,
                 allProjectNamesInOrder);
         }
